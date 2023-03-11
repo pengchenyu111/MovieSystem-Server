@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="Movie-System-Movie-Info-Service" />
+        <module name="Movie-System-Job-Server" />
+        <module name="Movie-System-UAA" />
+        <module name="Movie-System-Common" />
+        <module name="Movie-System-Gateway" />
+        <module name="Movie-System-Movie-Info-Api" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Movie-System-Doc" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="Movie-System-Common" options="-parameters" />
+      <module name="Movie-System-Doc" options="-parameters" />
+      <module name="Movie-System-Gateway" options="-parameters" />
+      <module name="Movie-System-Job-Server" options="-parameters" />
+      <module name="Movie-System-Moive-Info" options="-parameters" />
+      <module name="Movie-System-Movie-Info-Api" options="-parameters" />
+      <module name="Movie-System-Movie-Info-Service" options="-parameters" />
+      <module name="Movie-System-UAA" options="-parameters" />
+    </option>
+  </component>
+</project>
