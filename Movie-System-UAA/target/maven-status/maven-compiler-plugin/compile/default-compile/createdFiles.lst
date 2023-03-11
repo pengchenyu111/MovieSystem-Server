@@ -1,0 +1,17 @@
+com\pcy\domain\UserLogin.class
+com\pcy\redis\UaaRedisKey.class
+com\pcy\domain\LoginLog.class
+com\pcy\msg\UAACodeMsg.class
+com\pcy\mapper\UserMapper.class
+com\pcy\mq\MQConstant.class
+com\pcy\service\impl\UserServiceImpl.class
+com\pcy\util\MD5Util.class
+com\pcy\config\WebConfig.class
+com\pcy\advice\UAAControllerAdvice.class
+com\pcy\domain\UserResponse.class
+com\pcy\mq\MQLoginLogListener.class
+com\pcy\domain\MovieUser.class
+com\pcy\service\IUserService.class
+com\pcy\UaaApplication.class
+com\pcy\config\Swagger3Config.class
+com\pcy\controller\LoginController.class
