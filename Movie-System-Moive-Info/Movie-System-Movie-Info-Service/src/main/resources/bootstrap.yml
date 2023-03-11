@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: movie-info-service
+  cloud:
+    nacos:
+      server-addr: 192.168.10.181:8848 #nacos中心地址
+      discovery:
+        namespace: 4198641c-fb0c-46ff-8a70-b9741f0f4e76
+        group: movie-system
+      config:
+        namespace: 4198641c-fb0c-46ff-8a70-b9741f0f4e76
+        group: movie-system
+        file-extension: yaml # 配置文件格式
+        shared-configs:
+          - data-id: redis-config-dev.yaml
+            group: movie-system
+          - data-id: nacos-discovery-config-dev.yaml
+            group: movie-system
+          - data-id: rocketmq-config-dev.yaml
+            group: movie-system
+          - data-id: mongodb-config-dev.yaml
+            group: movie-system
+  profiles:
+    active: dev # 环境标识
+
