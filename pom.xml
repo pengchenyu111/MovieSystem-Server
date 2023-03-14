@@ -13,6 +13,7 @@
         <module>Movie-System-UAA</module>
         <module>Movie-System-Job-Server</module>
         <module>Movie-System-Moive-Info</module>
+        <module>Movie-System-Recommend</module>
     </modules>
 
     <!--父工程-->
@@ -45,6 +46,8 @@
         <elastic-job.version>2.1.5</elastic-job.version>
         <!--Redis-->
         <jedis.version>3.3.0</jedis.version>
+        <!--Shiro-->
+        <shiro.version>1.7.0</shiro.version>
         <!--工具包-->
         <lombok.version>1.18.8</lombok.version>
         <knife4j.version>3.0.3</knife4j.version>
@@ -116,6 +119,13 @@
                 <groupId>redis.clients</groupId>
                 <artifactId>jedis</artifactId>
                 <version>${jedis.version}</version>
+            </dependency>
+
+            <!-- 安全框架-->
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-spring</artifactId>
+                <version>${shiro.version}</version>
             </dependency>
 
             <!-- 工具包-->
