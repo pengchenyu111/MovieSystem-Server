@@ -18,17 +18,17 @@
         <result property="movieNegativeRate" column="movie_negative_rate" jdbcType="VARCHAR"/>
     </resultMap>
 
-<!--    <resultMap type="com.pcy.domain.movieReviews.UserReview" id="UserReviewsMap">-->
-<!--        <result property="reviewId" column="review_id" jdbcType="VARCHAR"/>-->
-<!--        <result property="doubanId" column="douban_id" jdbcType="INTEGER"/>-->
-<!--        <result property="userUniqueName" column="user_unique_name" jdbcType="VARCHAR"/>-->
-<!--        <result property="title" column="title" jdbcType="VARCHAR"/>-->
-<!--        <result property="coverUrl" column="cover_url" jdbcType="VARCHAR"/>-->
-<!--        <result property="userMovieRatingContent" column="user_movie_rating_content" jdbcType="VARCHAR"/>-->
-<!--        <result property="userMovieRating" column="user_movie_rating" jdbcType="INTEGER"/>-->
-<!--        <result property="userMovieRatingAgree" column="user_movie_rating_agree" jdbcType="INTEGER"/>-->
-<!--        <result property="userMovieRatingTime" column="user_movie_rating_time" jdbcType="VARCHAR"/>-->
-<!--    </resultMap>-->
+    <resultMap type="com.pcy.domain.movieReviews.UserReview" id="UserReviewsMap">
+        <result property="reviewId" column="review_id" jdbcType="VARCHAR"/>
+        <result property="doubanId" column="douban_id" jdbcType="INTEGER"/>
+        <result property="userUniqueName" column="user_unique_name" jdbcType="VARCHAR"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="coverUrl" column="cover_url" jdbcType="VARCHAR"/>
+        <result property="userMovieRatingContent" column="user_movie_rating_content" jdbcType="VARCHAR"/>
+        <result property="userMovieRating" column="user_movie_rating" jdbcType="INTEGER"/>
+        <result property="userMovieRatingAgree" column="user_movie_rating_agree" jdbcType="INTEGER"/>
+        <result property="userMovieRatingTime" column="user_movie_rating_time" jdbcType="VARCHAR"/>
+    </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="MovieReviewsMap">
@@ -120,25 +120,25 @@
         limit #{k}
     </select>
 
-<!--    &lt;!&ndash;根据userId查询用户历史评论&ndash;&gt;-->
-<!--    <select id="userHistoryReviews" resultMap="UserReviewsMap">-->
-<!--        select-->
-<!--            mr.review_id,-->
-<!--            mr.user_unique_name,-->
-<!--            md.douban_id,-->
-<!--            md.title,-->
-<!--            md.cover_url,-->
-<!--            mr.user_movie_rating_content,-->
-<!--            mr.user_movie_rating,-->
-<!--            mr.user_movie_rating_agree,-->
-<!--            mr.user_movie_rating_time-->
-<!--        from movie_recommendation.movie_reviews mr-->
-<!--                 left join movie_detail md on mr.douban_id = md.douban_id-->
-<!--        where user_unique_name = (-->
-<!--            select user_unique_name from movie_user where user_id = #{userId}-->
-<!--        )-->
-<!--        order by user_movie_rating_agree DESC-->
-<!--    </select>-->
+    <!--根据userId查询用户历史评论-->
+    <select id="userHistoryReviews" resultMap="UserReviewsMap">
+        select
+            mr.review_id,
+            mr.user_unique_name,
+            md.douban_id,
+            md.title,
+            md.cover_url,
+            mr.user_movie_rating_content,
+            mr.user_movie_rating,
+            mr.user_movie_rating_agree,
+            mr.user_movie_rating_time
+        from movie_recommendation.movie_reviews mr
+                 left join movie_detail md on mr.douban_id = md.douban_id
+        where user_unique_name = (
+            select user_unique_name from movie_user where user_id = #{userId}
+        )
+        order by user_movie_rating_agree DESC
+    </select>
 
     <!--查看评论，排序-->
     <select id="queryByDoubanIdWithSort" resultMap="MovieReviewsMap">
@@ -238,11 +238,11 @@
         delete from movie_recommendation.movie_reviews where review_id = #{reviewId}
     </delete>
 
-<!--    &lt;!&ndash; 用户给评论点赞 &ndash;&gt;-->
-<!--    <update id="agree">-->
-<!--        update movie_recommendation.movie_reviews-->
-<!--        set user_movie_rating_agree = user_movie_rating_agree + 1-->
-<!--        where review_id = #{reviewId}-->
-<!--    </update>-->
+    <!-- 用户给评论点赞 -->
+    <update id="agree">
+        update movie_recommendation.movie_reviews
+        set user_movie_rating_agree = user_movie_rating_agree + 1
+        where review_id = #{reviewId}
+    </update>
 
 </mapper>

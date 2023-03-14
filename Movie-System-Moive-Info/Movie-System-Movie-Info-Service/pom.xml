@@ -19,6 +19,11 @@
             <artifactId>Movie-System-Movie-Info-Api</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.pcy</groupId>
+            <artifactId>Movie-System-UAA-Api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
 
         <!--Web-->
         <dependency>

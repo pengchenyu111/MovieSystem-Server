@@ -15,8 +15,6 @@ import redis.clients.jedis.JedisPoolConfig;
 @Configuration
 public class JedisConfig {
 
-    @Value("${spring.redis.database}")
-    private int database;
     @Value("${spring.redis.host}")
     private String host;
     @Value("${spring.redis.port}")
