@@ -1,6 +1,7 @@
 package com.pcy.dao;
 
 import com.pcy.domain.movieReviews.MovieReviews;
+import com.pcy.domain.movieReviews.UserReview;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -125,11 +126,11 @@ public interface MovieReviewsDao {
      */
     List<MovieReviews> kRecentRatings(@Param("userId") Integer userId, @Param("k") Integer k);
 
-//    /**
-//     * 根据userId分页查询用户历史评论
-//     *
-//     * @param userId 用户id
-//     * @return 用户历史评论
-//     */
-//    List<UserReview> userHistoryReviews(Integer userId);
+    /**
+     * 根据userId分页查询用户历史评论
+     *
+     * @param userId 用户id
+     * @return 用户历史评论
+     */
+    List<UserReview> userHistoryReviews(Integer userId);
 }

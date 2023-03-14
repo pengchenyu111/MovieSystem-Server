@@ -2,6 +2,9 @@ package com.pcy.commmon.web;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 /**
  * @Author PengChenyu
@@ -10,7 +13,10 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
-public class ApiResponse<T> {
+@NoArgsConstructor
+public class ApiResponse<T> implements Serializable {
+
+    private static final long serialVersionUID = -681228824650339601L;
 
     /**
      * 请求是否成功

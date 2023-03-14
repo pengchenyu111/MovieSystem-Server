@@ -4,6 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @Author PengChenyu
  * @Date 2023/3/10 18:21
