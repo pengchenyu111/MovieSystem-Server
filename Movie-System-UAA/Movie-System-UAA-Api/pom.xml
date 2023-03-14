@@ -11,13 +11,12 @@
 
     <artifactId>Movie-System-UAA-Api</artifactId>
 
-
-
     <dependencies>
-        <!-- Lombok -->
+
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
+            <groupId>com.pcy</groupId>
+            <artifactId>Movie-System-Common</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
 
         <!--接口文档-->
