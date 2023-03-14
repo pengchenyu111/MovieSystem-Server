@@ -9,9 +9,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -38,7 +40,7 @@ public class MovieDetailController {
      */
     @ApiOperation(value = "主键查询", notes = "通过主键查询单条数据")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = "doubanId", value = "豆瓣id", required = true, dataType = "Integer")
+            @ApiImplicitParam(paramType = "path", name = "doubanId", value = "豆瓣id", required = true, dataType = "Integer")
     })
     @GetMapping("/{doubanId}")
     public ApiResponse<MovieDetail> selectOne(@PathVariable("doubanId") Integer doubanId) {
@@ -47,6 +49,25 @@ public class MovieDetailController {
             return new ApiResponse<>(Boolean.FALSE, ErrorMessages.QUERY_NULL, null);
         }
         return new ApiResponse<>(Boolean.TRUE, ErrorMessages.REQUEST_SUCCESS, movieDetail);
+    }
+
+    /**
+     * 通过doubanId集合查询多条电影数据
+     *
+     * @param doubanIdList 主键
+     * @return 多条电影数据
+     */
+    @ApiOperation(value = "通过doubanId集合查询多条电影数据", notes = "通过doubanId集合查询多条电影数据")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "body", name = "doubanId", value = "豆瓣id", required = true, dataType = "Integer")
+    })
+    @PostMapping("/queryByIdList")
+    public ApiResponse<List<MovieDetail>> queryByIdList(@RequestBody List<Integer> doubanIdList) {
+        List<MovieDetail> movieDetails = this.movieDetailService.queryByIdList(doubanIdList);
+        if (CollectionUtils.isEmpty(movieDetails)) {
+            return new ApiResponse<>(Boolean.FALSE, ErrorMessages.QUERY_NULL, null);
+        }
+        return new ApiResponse<>(Boolean.TRUE, ErrorMessages.REQUEST_SUCCESS, movieDetails);
     }
 
 
