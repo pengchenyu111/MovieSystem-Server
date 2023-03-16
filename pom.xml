@@ -14,6 +14,7 @@
         <module>Movie-System-Job-Server</module>
         <module>Movie-System-Moive-Info</module>
         <module>Movie-System-Recommend</module>
+        <module>Movie-System-Search</module>
     </modules>
 
     <!--父工程-->
@@ -40,6 +41,8 @@
         <pagehelper.version>1.2.13</pagehelper.version>
         <!--MongoDB-->
         <spring-data-mongodb.version>2.4.1</spring-data-mongodb.version>
+        <!--ES-->
+        <es.version>2.4.1</es.version>
         <!--消息队列-->
         <rocketmq.version>2.0.4</rocketmq.version>
         <!--定时调度-->
@@ -97,6 +100,13 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-mongodb</artifactId>
                 <version>${spring-data-mongodb.version}</version>
+            </dependency>
+
+            <!-- ElasticSearch -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+                <version>${es.version}</version>
             </dependency>
 
             <!--消息队列-->

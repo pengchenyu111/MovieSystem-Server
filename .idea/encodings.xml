@@ -8,6 +8,8 @@
     <file url="file://$PROJECT_DIR$/Movie-System-Moive-Info/Movie-System-Movie-Info-Service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Movie-System-Recommend/Movie-System-Recommend-Api/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Movie-System-Recommend/Movie-System-Recommend-Service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Movie-System-Search/Movie-System-Search-Api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Movie-System-Search/Movie-System-Search-Service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Movie-System-UAA/Movie-System-UAA-Api/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Movie-System-UAA/Movie-System_UAA-Service/src/main/java" charset="UTF-8" />
   </component>

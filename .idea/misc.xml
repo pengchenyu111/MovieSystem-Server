@@ -11,6 +11,7 @@
       <set>
         <option value="$PROJECT_DIR$/Movie-System-Doc/pom.xml" />
         <option value="$PROJECT_DIR$/Movie-System-Movie-Info-Api/pom.xml" />
+        <option value="$PROJECT_DIR$/Movie-System-Search-Service/pom.xml" />
       </set>
     </option>
   </component>
