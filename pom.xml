@@ -15,6 +15,8 @@
         <module>Movie-System-Moive-Info</module>
         <module>Movie-System-Recommend</module>
         <module>Movie-System-Search</module>
+        <module>Movie-System-Sms-Mail</module>
+        <module>Movie-System-Test</module>
     </modules>
 
     <!--父工程-->
@@ -165,19 +167,5 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <build>
-        <resources>
-            <resource>
-                <directory>src/main/java</directory>
-                <includes>
-                    <include>**/*.xml</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-            </resource>
-        </resources>
-    </build>
 
 </project>
