@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 /**
  * 电影详情标签查询请求对象
  *
@@ -16,7 +18,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MovieDetailSearchRequest {
+public class MovieDetailSearchRequest implements Serializable {
+
+
+    private static final long serialVersionUID = -4431761492220282743L;
+
 
     @ApiModelProperty("第几页")
     private Integer pageNum;

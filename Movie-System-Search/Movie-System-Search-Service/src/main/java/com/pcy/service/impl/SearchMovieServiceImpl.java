@@ -80,7 +80,7 @@ public class SearchMovieServiceImpl implements SearchMovieService {
     public ElasticSearchVo<MovieDetail> searchMovie(String keyword, int pageNum, int pageSize) {
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         // 多字段查询
-        MultiMatchQueryBuilder multiMatchQueryBuilder = QueryBuilders.multiMatchQuery(keyword, this.SEARCH_MOVIE_FIELDS);
+        MultiMatchQueryBuilder multiMatchQueryBuilder = QueryBuilders.multiMatchQuery(keyword, this.SEARCH_MOVIE_FIELDS).minimumShouldMatch("70%").field("title", 5);
         searchSourceBuilder.query(multiMatchQueryBuilder);
         // 设置分页
         searchSourceBuilder.from(pageNum);

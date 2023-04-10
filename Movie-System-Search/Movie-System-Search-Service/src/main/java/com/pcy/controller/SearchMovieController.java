@@ -42,9 +42,9 @@ public class SearchMovieController {
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "path", name = "pageNum", value = "当前页", required = true, dataType = "int"),
             @ApiImplicitParam(paramType = "path", name = "pageSize", value = "每页的数量", required = true, dataType = "int"),
-            @ApiImplicitParam(paramType = "body", name = "keyword", value = "用户搜索的关键字", required = true, dataType = "String")
+            @ApiImplicitParam(paramType = "path", name = "keyword", value = "用户搜索的关键字", required = true, dataType = "String")
     })
-    @GetMapping("/input_search/{pageNum}/{pageSize}/keyword/{keyword}")
+    @GetMapping("/input_search/pageNum/{pageNum}/pageSize/{pageSize}/keyword/{keyword}")
     public ApiResponse<ElasticSearchVo<MovieDetail>> searchMovie(@PathVariable("pageNum") int pageNum, @PathVariable("pageSize") int pageSize, @PathVariable("keyword") String keyword) {
         ElasticSearchVo<MovieDetail> movieDetailElasticSearchVo = searchMovieService.searchMovie(keyword, pageNum, pageSize);
         if (movieDetailElasticSearchVo.getTotal() == 0) {
@@ -83,7 +83,7 @@ public class SearchMovieController {
      */
     @ApiOperation(value = "类豆瓣标签搜索")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "body", name = "movieDetailSearchRequest", value = "doubanId", required = true, dataType = "MovieDetailSearchRequest")
+            @ApiImplicitParam(paramType = "body", name = "movieDetailSearchRequest", value = "请求参数", required = true, dataType = "MovieDetailSearchRequest")
     })
     @PostMapping("/searchByTags")
     public ApiResponse<ElasticSearchVo<MovieDetail>> searchByTags(@RequestBody MovieDetailSearchRequest movieDetailSearchRequest) {
