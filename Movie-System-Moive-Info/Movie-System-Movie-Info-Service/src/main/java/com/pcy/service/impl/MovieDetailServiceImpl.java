@@ -26,6 +26,9 @@ public class MovieDetailServiceImpl implements MovieDetailService {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
+
+    private static final int MOVIE_EXPIRE = 30 * 24 * 60 * 60;
+
     @Resource
     private MovieDetailDao movieDetailDao;
 
@@ -50,7 +53,7 @@ public class MovieDetailServiceImpl implements MovieDetailService {
         MovieDetail movieDetail = this.movieDetailDao.queryById(doubanId);
         if (movieDetail != null) {
             String json = JSON.toJSONString(movieDetail);
-            redisUtil.set(key, json, 0);
+            redisUtil.setex(key, MOVIE_EXPIRE, json);
         }
         return movieDetail;
     }

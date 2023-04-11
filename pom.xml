@@ -53,6 +53,10 @@
         <jedis.version>3.3.0</jedis.version>
         <!--Shiro-->
         <shiro.version>1.7.0</shiro.version>
+        <!--阿里云相关-->
+        <aliyun-java-sdk-core.version>4.5.9</aliyun-java-sdk-core.version>
+        <aliyun-java-sdk-dm.version>3.3.1</aliyun-java-sdk-dm.version>
+        <aliyun-sms.version>2.0.4</aliyun-sms.version>
         <!--工具包-->
         <lombok.version>1.18.8</lombok.version>
         <knife4j.version>3.0.3</knife4j.version>
@@ -138,6 +142,23 @@
                 <groupId>org.apache.shiro</groupId>
                 <artifactId>shiro-spring</artifactId>
                 <version>${shiro.version}</version>
+            </dependency>
+
+            <!--阿里云相关-->
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>aliyun-java-sdk-core</artifactId>
+                <version>${aliyun-java-sdk-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>aliyun-java-sdk-dm</artifactId>
+                <version>${aliyun-java-sdk-dm.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>dysmsapi20170525</artifactId>
+                <version>${aliyun-sms.version}</version>
             </dependency>
 
             <!-- 工具包-->
