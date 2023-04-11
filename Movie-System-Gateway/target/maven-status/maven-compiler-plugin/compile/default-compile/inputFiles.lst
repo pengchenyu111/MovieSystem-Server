@@ -3,4 +3,4 @@ D:\Code\Java\MovieSystem\Movie-System-Gateway\src\main\java\com\pcy\filters\Comm
 D:\Code\Java\MovieSystem\Movie-System-Gateway\src\main\java\com\pcy\config\GatewayConfiguration.java
 D:\Code\Java\MovieSystem\Movie-System-Gateway\src\main\java\com\pcy\config\CorsConfig.java
 D:\Code\Java\MovieSystem\Movie-System-Gateway\src\main\java\com\pcy\config\SwaggerHandler.java
-D:\Code\Java\MovieSystem\Movie-System-Gateway\src\main\java\com\pcy\config\SwaggerProvider.java
+D:\Code\Java\MovieSystem\Movie-System-Gateway\src\main\java\com\pcy\config\SwaggerResourceConfig.java

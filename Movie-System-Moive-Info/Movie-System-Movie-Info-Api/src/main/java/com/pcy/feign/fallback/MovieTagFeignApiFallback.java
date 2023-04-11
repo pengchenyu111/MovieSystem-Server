@@ -13,7 +13,7 @@ import java.util.List;
  * @Version 1.0
  */
 @Component
-public class MovieTagFeignFallback implements MovieTagFeignApi {
+public class MovieTagFeignApiFallback implements MovieTagFeignApi {
     @Override
     public ApiResponse<List<MovieTag>> queryByIdList(List<Integer> idList) {
         return null;

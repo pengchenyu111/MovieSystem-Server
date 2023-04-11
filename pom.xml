@@ -14,6 +14,9 @@
         <module>Movie-System-Job-Server</module>
         <module>Movie-System-Moive-Info</module>
         <module>Movie-System-Recommend</module>
+        <module>Movie-System-Search</module>
+        <module>Movie-System-Sms-Mail</module>
+        <module>Movie-System-Test</module>
     </modules>
 
     <!--父工程-->
@@ -40,6 +43,8 @@
         <pagehelper.version>1.2.13</pagehelper.version>
         <!--MongoDB-->
         <spring-data-mongodb.version>2.4.1</spring-data-mongodb.version>
+        <!--ES-->
+        <es.version>2.4.1</es.version>
         <!--消息队列-->
         <rocketmq.version>2.0.4</rocketmq.version>
         <!--定时调度-->
@@ -48,6 +53,10 @@
         <jedis.version>3.3.0</jedis.version>
         <!--Shiro-->
         <shiro.version>1.7.0</shiro.version>
+        <!--阿里云相关-->
+        <aliyun-java-sdk-core.version>4.5.9</aliyun-java-sdk-core.version>
+        <aliyun-java-sdk-dm.version>3.3.1</aliyun-java-sdk-dm.version>
+        <aliyun-sms.version>2.0.4</aliyun-sms.version>
         <!--工具包-->
         <lombok.version>1.18.8</lombok.version>
         <knife4j.version>3.0.3</knife4j.version>
@@ -99,6 +108,13 @@
                 <version>${spring-data-mongodb.version}</version>
             </dependency>
 
+            <!-- ElasticSearch -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+                <version>${es.version}</version>
+            </dependency>
+
             <!--消息队列-->
             <!--RocketMQ-->
             <dependency>
@@ -128,6 +144,23 @@
                 <version>${shiro.version}</version>
             </dependency>
 
+            <!--阿里云相关-->
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>aliyun-java-sdk-core</artifactId>
+                <version>${aliyun-java-sdk-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>aliyun-java-sdk-dm</artifactId>
+                <version>${aliyun-java-sdk-dm.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>dysmsapi20170525</artifactId>
+                <version>${aliyun-sms.version}</version>
+            </dependency>
+
             <!-- 工具包-->
             <!-- lombok -->
             <dependency>
@@ -155,19 +188,5 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <build>
-        <resources>
-            <resource>
-                <directory>src/main/java</directory>
-                <includes>
-                    <include>**/*.xml</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-            </resource>
-        </resources>
-    </build>
 
 </project>

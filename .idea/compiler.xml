@@ -8,22 +8,29 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Movie-System-Movie-Info-Service" />
-        <module name="Movie-System-UAA-Api" />
+        <module name="Movie-System-Test" />
         <module name="Movie-System-Movie-Info-Api" />
+        <module name="Movie-System-Sms-Mail-Api" />
         <module name="Movie-System_UAA-Service" />
         <module name="Movie-System-Recommend-Service" />
         <module name="Movie-System-Job-Server" />
         <module name="Movie-System-Common" />
+        <module name="Movie-System-UAA-Api" />
+        <module name="Movie-System-Search-Service" />
+        <module name="Movie-System-Sms-Mail-Service" />
         <module name="Movie-System-Gateway" />
+        <module name="Movie-System-Search-Api" />
         <module name="Movie-System-Recommend-Api" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="Movie-System-Canal" target="1.8" />
       <module name="Movie-System-Doc" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="Movie-System-Canal" options="-parameters" />
       <module name="Movie-System-Common" options="-parameters" />
       <module name="Movie-System-Doc" options="-parameters" />
       <module name="Movie-System-Gateway" options="-parameters" />
@@ -34,6 +41,13 @@
       <module name="Movie-System-Recommend" options="-parameters" />
       <module name="Movie-System-Recommend-Api" options="-parameters" />
       <module name="Movie-System-Recommend-Service" options="-parameters" />
+      <module name="Movie-System-Search" options="-parameters" />
+      <module name="Movie-System-Search-Api" options="-parameters" />
+      <module name="Movie-System-Search-Service" options="-parameters" />
+      <module name="Movie-System-Sms-Mail" options="-parameters" />
+      <module name="Movie-System-Sms-Mail-Api" options="-parameters" />
+      <module name="Movie-System-Sms-Mail-Service" options="-parameters" />
+      <module name="Movie-System-Test" options="-parameters" />
       <module name="Movie-System-UAA" options="-parameters" />
       <module name="Movie-System-UAA-Api" options="-parameters" />
       <module name="Movie-System_UAA-Service" options="-parameters" />

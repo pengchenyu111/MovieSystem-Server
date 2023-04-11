@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * @Version 1.0
  */
 @Component
-public class MovieUserFeignFallback implements MovieUserFeignApi {
+public class MovieUserFeignApiFallback implements MovieUserFeignApi {
     @Override
     public ApiResponse<MovieUser> queryByUserUniqueName(String userUniqueName) {
         return null;

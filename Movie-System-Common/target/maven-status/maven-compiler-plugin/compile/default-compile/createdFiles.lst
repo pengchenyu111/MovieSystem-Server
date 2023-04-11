@@ -1,10 +1,10 @@
-com\pcy\commmon\web\interceptor\RequireLoginInterceptor.class
-com\pcy\commmon\exception\BusinessException.class
 com\pcy\commmon\redis\CommonRedisKey.class
 com\pcy\commmon\web\CodeMsg.class
-com\pcy\commmon\web\ErrorMessages.class
 com\pcy\commmon\web\ApiResponse.class
-com\pcy\commmon\web\interceptor\FeignRequestInterceptor.class
 com\pcy\commmon\constant\CommonConstants.class
+com\pcy\commmon\web\interceptor\RequireLoginInterceptor.class
+com\pcy\commmon\exception\BusinessException.class
+com\pcy\commmon\web\ErrorMessages.class
+com\pcy\commmon\web\interceptor\FeignRequestInterceptor.class
 com\pcy\commmon\exception\CommonControllerAdvice.class
 com\pcy\commmon\web\anno\RequireLogin.class
