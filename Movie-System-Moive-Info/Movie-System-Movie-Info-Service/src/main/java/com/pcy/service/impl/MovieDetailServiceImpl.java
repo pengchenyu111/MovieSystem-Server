@@ -3,16 +3,19 @@ package com.pcy.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.pcy.constant.MovieConstant;
 import com.pcy.dao.MovieDetailDao;
 import com.pcy.domain.movieDetail.MovieDetail;
 import com.pcy.service.MovieDetailService;
+import com.pcy.util.BloomFilterUtil;
 import com.pcy.util.RedisUtil;
+import org.apache.ibatis.ognl.Ognl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -35,6 +38,9 @@ public class MovieDetailServiceImpl implements MovieDetailService {
     @Resource
     RedisUtil redisUtil;
 
+    @Resource
+    BloomFilterUtil bloomFilterUtil;
+
 
     /**
      * 通过ID查询单条数据
@@ -44,6 +50,10 @@ public class MovieDetailServiceImpl implements MovieDetailService {
      */
     @Override
     public MovieDetail queryById(Integer doubanId) {
+        // 添加布隆过滤器
+        if (!bloomFilterUtil.containsElement(MovieConstant.REDIS_MOVIE_DETAIL_BLOOM, doubanId)) {
+            return null;
+        }
         String key = "movieDetail:" + doubanId;
         if (redisUtil.exists(key)) {
             String movieDetailJson = redisUtil.get(key);
