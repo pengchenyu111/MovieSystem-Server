@@ -16,8 +16,6 @@ spring:
             group: movie-system
           - data-id: nacos-discovery-config-dev.yaml
             group: movie-system
-          - data-id: rocketmq-config-dev.yaml
-            group: movie-system
           - data-id: mongodb-config-dev.yaml
             group: movie-system
   profiles:

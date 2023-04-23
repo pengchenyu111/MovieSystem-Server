@@ -84,6 +84,12 @@
             <version>3.9.1</version>
         </dependency>
 
+        <!--消息队列Kafka-->
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
+
 
         <!--接口文档-->
         <dependency>
