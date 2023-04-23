@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcy.dao.MovieRatingDao">
+
+    <resultMap type="com.pcy.pojo.MovieUserRatings" id="MovieUserRatingsMap">
+        <result property="reviewId" column="review_id" jdbcType="VARCHAR"/>
+        <result property="doubanId" column="douban_id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="userMovieRating" column="user_movie_rating" jdbcType="NUMERIC"/>
+        <result property="userMovieRatingTime" column="user_movie_rating_time" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap type="com.pcy.pojo.CalRatingsScoreResult" id="CalRatingsScoreMap">
+        <result property="doubanId" column="douban_id" jdbcType="INTEGER"/>
+        <result property="ratingScore" column="ratingScore" jdbcType="NUMERIC"/>
+        <result property="ratingStar" column="ratingStar" jdbcType="INTEGER"/>
+        <result property="ratingNum" column="ratingNum" jdbcType="INTEGER"/>
+        <result property="rating5StarWeight" column="rating5StarWeight" jdbcType="VARCHAR"/>
+        <result property="rating4StarWeight" column="rating4StarWeight" jdbcType="VARCHAR"/>
+        <result property="rating3StarWeight" column="rating3StarWeight" jdbcType="VARCHAR"/>
+        <result property="rating2StarWeight" column="rating2StarWeight" jdbcType="VARCHAR"/>
+        <result property="rating1StarWeight" column="rating1StarWeight" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="calRatingScore" resultMap="CalRatingsScoreMap">
+        SELECT
+            douban_id,
+            ROUND( sum( user_movie_rating ) * 10 / ( count( douban_id ) * 5 ), 1 ) AS ratingScore,
+            count( douban_id ) AS ratingNum,
+            CEILING( sum( user_movie_rating ) * 10 / ( count( douban_id ) * 5 ) ) * 5 AS ratingStar,
+            CONCAT(ROUND(sum( CASE WHEN user_movie_rating = 5 THEN 1 ELSE 0 END ) / count( douban_id ) * 100, 1),'%') AS rating5StarWeight ,
+            CONCAT(ROUND(sum( CASE WHEN user_movie_rating = 4 THEN 1 ELSE 0 END ) / count( douban_id ) * 100, 1),'%') AS rating4StarWeight ,
+            CONCAT(ROUND(sum( CASE WHEN user_movie_rating = 3 THEN 1 ELSE 0 END ) / count( douban_id ) * 100, 1),'%') AS rating3StarWeight ,
+            CONCAT(ROUND(sum( CASE WHEN user_movie_rating = 2 THEN 1 ELSE 0 END ) / count( douban_id ) * 100, 1),'%') AS rating2StarWeight ,
+            CONCAT(ROUND(sum( CASE WHEN user_movie_rating = 1 THEN 1 ELSE 0 END ) / count( douban_id ) * 100, 1),'%') AS rating1StarWeight
+        FROM
+            movie_user_ratings
+        WHERE
+            douban_id = #{doubanId};
+    </select>
+
+
+</mapper>
