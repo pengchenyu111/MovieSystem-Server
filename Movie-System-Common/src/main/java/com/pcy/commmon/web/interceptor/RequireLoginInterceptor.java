@@ -39,7 +39,7 @@ public class RequireLoginInterceptor implements HandlerInterceptor {
                 response.setContentType("application/json;charset=utf-8");
                 String token = request.getHeader(CommonConstants.TOKEN_NAME);
                 if (StringUtils.isEmpty(token)) {
-                    response.getWriter().write(JSON.toJSONString(ApiResponse.failed(ErrorMessages.TOKEN_INVALID)));
+                    response.getWriter().write(JSON.toJSONString(ApiResponse.failed(ErrorMessages.LOGIN_NEED)));
                     return false;
                 }
                 String phone = JSON.parseObject(redisTemplate.opsForValue().get(CommonRedisKey.USER_TOKEN.getRealKey(token)), String.class);

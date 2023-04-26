@@ -16,6 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface MovieUserFeignApi {
 
 
-    @GetMapping("/uaa/movieUser/uniqueName/{userUniqueName}")
+    @GetMapping("/movieUser/uniqueName/{userUniqueName}")
     ApiResponse<MovieUser> queryByUserUniqueName(@PathVariable("userUniqueName") String userUniqueName);
 }

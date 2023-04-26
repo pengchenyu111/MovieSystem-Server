@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcy.dao.MovieDetailDao">
+
+    <resultMap type="com.pcy.pojo.MovieDetail" id="MovieDetailMap">
+        <result property="doubanId" column="douban_id" jdbcType="INTEGER"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="briefInstruction" column="brief_instruction" jdbcType="VARCHAR"/>
+        <result property="directors" column="directors" jdbcType="VARCHAR"/>
+        <result property="screenwriters" column="screenwriters" jdbcType="VARCHAR"/>
+        <result property="casts" column="casts" jdbcType="VARCHAR"/>
+        <result property="types" column="types" jdbcType="VARCHAR"/>
+        <result property="productionCountryArea" column="production_country_area" jdbcType="VARCHAR"/>
+        <result property="language" column="language" jdbcType="VARCHAR"/>
+        <result property="publishDate" column="publish_date" jdbcType="VARCHAR"/>
+        <result property="runtime" column="runtime" jdbcType="VARCHAR"/>
+        <result property="ratingScore" column="rating_score" jdbcType="NUMERIC"/>
+        <result property="ratingStar" column="rating_star" jdbcType="INTEGER"/>
+        <result property="ratingNum" column="rating_num" jdbcType="INTEGER"/>
+        <result property="rating5StarWeight" column="rating_5_star_weight" jdbcType="VARCHAR"/>
+        <result property="rating4StarWeight" column="rating_4_star_weight" jdbcType="VARCHAR"/>
+        <result property="rating3StarWeight" column="rating_3_star_weight" jdbcType="VARCHAR"/>
+        <result property="rating2StarWeight" column="rating_2_star_weight" jdbcType="VARCHAR"/>
+        <result property="rating1StarWeight" column="rating_1_star_weight" jdbcType="VARCHAR"/>
+        <result property="betterThan" column="better_than" jdbcType="VARCHAR"/>
+        <result property="doubanUrl" column="douban_url" jdbcType="VARCHAR"/>
+        <result property="coverUrl" column="cover_url" jdbcType="VARCHAR"/>
+        <result property="imdbUrl" column="imdb_url" jdbcType="VARCHAR"/>
+        <result property="imgList" column="img_list" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <!-- 查询所有id 通过分片mod -->
+    <select id="selectIdBySharding" resultType="java.lang.Integer">
+        select douban_id
+        from movie_recommendation.movie_detail
+        where mod(douban_id, #{shardingTotalCount}) = #{shardingItem}
+    </select>
+
+    <!--通过主键修改数据-->
+    <update id="updateRatingByCalResult">
+        update movie_recommendation.movie_detail
+        <set>
+            <if test="ratingScore != null">
+                rating_score = #{ratingScore},
+            </if>
+            <if test="ratingStar != null">
+                rating_star = #{ratingStar},
+            </if>
+            <if test="ratingNum != null">
+                rating_num = #{ratingNum},
+            </if>
+            <if test="rating5StarWeight != null and rating5StarWeight != ''">
+                rating_5_star_weight = #{rating5StarWeight},
+            </if>
+            <if test="rating4StarWeight != null and rating4StarWeight != ''">
+                rating_4_star_weight = #{rating4StarWeight},
+            </if>
+            <if test="rating3StarWeight != null and rating3StarWeight != ''">
+                rating_3_star_weight = #{rating3StarWeight},
+            </if>
+            <if test="rating2StarWeight != null and rating2StarWeight != ''">
+                rating_2_star_weight = #{rating2StarWeight},
+            </if>
+            <if test="rating1StarWeight != null and rating1StarWeight != ''">
+                rating_1_star_weight = #{rating1StarWeight},
+            </if>
+        </set>
+        where douban_id = #{doubanId}
+    </update>
+
+
+</mapper>

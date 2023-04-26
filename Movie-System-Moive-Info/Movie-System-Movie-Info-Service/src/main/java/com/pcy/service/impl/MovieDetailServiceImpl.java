@@ -3,17 +3,22 @@ package com.pcy.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.pcy.constant.MovieConstant;
 import com.pcy.dao.MovieDetailDao;
 import com.pcy.domain.movieDetail.MovieDetail;
 import com.pcy.service.MovieDetailService;
+import com.pcy.util.BloomFilterUtil;
 import com.pcy.util.RedisUtil;
+import org.apache.ibatis.ognl.Ognl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * (MovieDetail)表服务实现类
@@ -29,12 +34,38 @@ public class MovieDetailServiceImpl implements MovieDetailService {
 
     private static final int MOVIE_EXPIRE = 30 * 24 * 60 * 60;
 
+    private static final String REDIS_MOVIE_DETAIL_LOCK = "lock:movieDetail:";
+
     @Resource
     private MovieDetailDao movieDetailDao;
 
     @Resource
     RedisUtil redisUtil;
 
+    @Resource
+    BloomFilterUtil bloomFilterUtil;
+
+    @Resource
+    StringRedisTemplate stringRedisTemplate;
+
+
+
+    /**
+     * 获取互斥锁
+     * @return
+     */
+    private Boolean tryLock(String key) {
+        Boolean flag = stringRedisTemplate.opsForValue().setIfAbsent(key, "1", 10, TimeUnit.SECONDS);
+        return Boolean.TRUE.equals(flag);
+    }
+
+    /**
+     * 释放锁
+     * @param key
+     */
+    private void unLock(String key) {
+        stringRedisTemplate.delete(key);
+    }
 
     /**
      * 通过ID查询单条数据
@@ -44,16 +75,38 @@ public class MovieDetailServiceImpl implements MovieDetailService {
      */
     @Override
     public MovieDetail queryById(Integer doubanId) {
+        // 添加布隆过滤器 ===> 防止缓存穿透
+        if (!bloomFilterUtil.containsElement(MovieConstant.REDIS_MOVIE_DETAIL_BLOOM, doubanId)) {
+            return null;
+        }
         String key = "movieDetail:" + doubanId;
         if (redisUtil.exists(key)) {
             String movieDetailJson = redisUtil.get(key);
             logger.info("从Redis中读取" + key);
             return JSON.parseObject(movieDetailJson, MovieDetail.class);
         }
-        MovieDetail movieDetail = this.movieDetailDao.queryById(doubanId);
-        if (movieDetail != null) {
+        // 缓存中没有数据，使用互斥锁，从数据库中获取数据，多线程情况下，只有一个线程能够获取到锁
+        // 防止缓存击穿
+        MovieDetail movieDetail = null;
+        String lockKey = REDIS_MOVIE_DETAIL_LOCK + doubanId;
+        Boolean lockFlag = tryLock(lockKey);
+        try {
+            if(!lockFlag){
+                // 获锁失败，等待100ms后重试
+                Thread.sleep(100);
+                return queryById(doubanId);
+            }
+            // 获锁成功，从数据库中获取数据
+            movieDetail = this.movieDetailDao.queryById(doubanId);
+            if (movieDetail == null) {
+                return null;
+            }
             String json = JSON.toJSONString(movieDetail);
             redisUtil.setex(key, MOVIE_EXPIRE, json);
+        }catch (Exception e){
+            throw new RuntimeException();
+        }finally {
+            unLock(lockKey);
         }
         return movieDetail;
     }

@@ -4,6 +4,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcy.commmon.util.DateFormatUtil;
 import com.pcy.commmon.util.IdWorkerUtil;
+import com.pcy.commmon.util.SnowflakeIdWorker;
+import com.pcy.constant.MessageConstant;
 import com.pcy.dao.MovieReviewsDao;
 import com.pcy.dao.MovieUserRatingsDao;
 import com.pcy.domain.movieReviews.MovieReviews;
@@ -14,7 +16,9 @@ import com.pcy.service.MovieReviewsService;
 import com.pcy.util.RedisUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -38,8 +42,8 @@ public class MovieReviewsServiceImpl implements MovieReviewsService {
     private MovieUserFeignApi movieUserFeignApi;
     @Resource
     private RedisUtil redisUtil;
-//    @Resource
-//    private KafkaTemplate<String, Object> kafkaTemplate;
+    @Resource
+    private KafkaTemplate<String, String> kafkaTemplate;
 
     private static final int DEFAULT_REDIS_DB = 0;
     private static final int DEFAULT_RATING_K = 20;
@@ -135,14 +139,14 @@ public class MovieReviewsServiceImpl implements MovieReviewsService {
      * @param movieReviews 评论信息
      * @return 评论信息
      */
+    @Transactional
     @Override
     public MovieReviews review(MovieReviews movieReviews) {
         // 先存入movie_reviews表
         // 设置reviewId
-        IdWorkerUtil idWorkerUtil = new IdWorkerUtil();
-        long nextId = idWorkerUtil.nextId();
+        String nextId = SnowflakeIdWorker.getSnowflakeId();
         logger.info("=====>" + nextId);
-        movieReviews.setReviewId(String.valueOf(nextId));
+        movieReviews.setReviewId(nextId);
         // 设置评分
         movieReviews.setUserMovieRating(movieReviews.getUserMovieRating() * 10);
         // 设置评分时间
@@ -154,7 +158,7 @@ public class MovieReviewsServiceImpl implements MovieReviewsService {
         }
         // 再存入movie_user_ratings表
         MovieUserRatings movieUserRatings = new MovieUserRatings();
-        movieUserRatings.setReviewId(String.valueOf(nextId));
+        movieUserRatings.setReviewId(nextId);
         movieUserRatings.setDoubanId(movieReviews.getDoubanId());
         Integer userId = movieUserFeignApi.queryByUserUniqueName(movieReviews.getUserUniqueName()).getData().getUserId();
         movieUserRatings.setUserId(userId);
@@ -180,20 +184,20 @@ public class MovieReviewsServiceImpl implements MovieReviewsService {
             logger.info("[更新Redis中用户最近K次评分成功]-" + key + "[队列中个数为]-" + valueCountInList);
         }
 
-//        // 发送消息给Kafka
-//        // 用于实时推荐
-//        StringBuilder builder = new StringBuilder();
-//        String message = builder.append(userId).append("|")
-//                .append(movieUserRatings.getDoubanId()).append("|")
-//                .append(movieUserRatings.getUserMovieRating()).append("|")
-//                .append(movieUserRatings.getUserMovieRatingTime()).toString();
-//        kafkaTemplate.send(MessageConstant.TOPIC_MOVIE_REC_SYS_RATING, message)
-//                .addCallback(success -> {
-//                            logger.info(String.format("[发送评分消息成功]-%s", message));
-//                        }, failure -> {
-//                            logger.info(String.format("[发送评分消息失败]-%s", message));
-//                        }
-//                );
+        // 发送消息给Kafka
+        // 用于实时推荐
+        StringBuilder builder = new StringBuilder();
+        String message = builder.append(userId).append("|")
+                .append(movieUserRatings.getDoubanId()).append("|")
+                .append(movieUserRatings.getUserMovieRating()).append("|")
+                .append(movieUserRatings.getUserMovieRatingTime()).toString();
+        kafkaTemplate.send(MessageConstant.TOPIC_MOVIE_REC_SYS_RATING, message)
+                .addCallback(success -> {
+                            logger.info(String.format("[发送评分消息成功]-%s", message));
+                        }, failure -> {
+                            logger.info(String.format("[发送评分消息失败]-%s", message));
+                        }
+                );
         return movieReviews;
     }
 

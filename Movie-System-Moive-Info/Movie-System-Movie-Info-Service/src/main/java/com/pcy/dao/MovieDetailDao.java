@@ -51,6 +51,13 @@ public interface MovieDetailDao {
 
 
     /**
+     * 查询所有doubanid
+     *
+     * @return 对象列表
+     */
+    List<Integer> queryAllDoubanId();
+
+    /**
      * 通过实体作为筛选条件查询
      *
      * @param movieDetail 实例对象

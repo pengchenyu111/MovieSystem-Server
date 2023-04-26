@@ -3,6 +3,7 @@ package com.pcy.controller;
 import com.github.pagehelper.PageInfo;
 import com.pcy.commmon.web.ApiResponse;
 import com.pcy.commmon.web.ErrorMessages;
+import com.pcy.commmon.web.anno.RequireLogin;
 import com.pcy.domain.movieDetail.MovieDetail;
 import com.pcy.service.MovieDetailService;
 import io.swagger.annotations.Api;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.Map;
 
 /**
  * (MovieDetail)表控制层
@@ -42,6 +42,7 @@ public class MovieDetailController {
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "path", name = "doubanId", value = "豆瓣id", required = true, dataType = "Integer")
     })
+//    @RequireLogin
     @GetMapping("/{doubanId}")
     public ApiResponse<MovieDetail> selectOne(@PathVariable("doubanId") Integer doubanId) {
         MovieDetail movieDetail = this.movieDetailService.queryById(doubanId);
