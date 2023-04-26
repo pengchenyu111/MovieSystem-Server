@@ -29,6 +29,7 @@ public class ErrorMessages {
      */
     public static final String LOGIN_ACCOUNT_PASSWORD_WRONG = "账号或密码错误";
     public static final String LOGIN_SUCCESS = "登录成功";
+    public static final String LOGIN_NEED = "请先登录";
     public static final String ILLEGAL_OPERATION = "非法操作";
     public static final String TOKEN_INVALID = "登录超时，请重新登录";
 
