@@ -48,23 +48,23 @@ object offlineRecommender {
 
     println(ratingRDD)
 
-//
-//    // 转换为Rating格式
-//    val trainRDD: RDD[Rating] = ratingRDD.map(x => Rating(x._1, x._2, x._3))
-//    // 设置参数(由ALSTrainer训练得出最优参数)，训练模型
-//    val (rank, iterations, lambda) = (50, 3, 0.34)
-//    val model: MatrixFactorizationModel = ALS.train(trainRDD, rank, iterations, lambda)
-//
-//    //model.save(com.pcy.movierecommendation.spark.sparkContext,"/usr/local/spark_ml_model/als_movie_rating_model")
-//
-//
-//    // 调用框架的recommendProductsForUsers方法，为所有用户推荐20条电影
-//    val userRecsDF: DataFrame = model.recommendProductsForUsers(20).map {
-//      case (user_id, arr) =>
-//        UserRecs(user_id, arr.sortWith(_.rating > _.rating).map(x => BaseRecommendation(x.product, x.rating)))
-//    }.toDF()
-//    // 存入MongoDB
-//    MongoDBUtil.storeDFInMongoDB(userRecsDF, DBConstant.MONGO_COLLECTION_ALS_USER_RECS)
+
+    // 转换为Rating格式
+    val trainRDD: RDD[Rating] = ratingRDD.map(x => Rating(x._1, x._2, x._3))
+    // 设置参数(由ALSTrainer训练得出最优参数)，训练模型
+    val (rank, iterations, lambda) = (50, 3, 0.34)
+    val model: MatrixFactorizationModel = ALS.train(trainRDD, rank, iterations, lambda)
+
+    //model.save(com.pcy.movierecommendation.spark.sparkContext,"/usr/local/spark_ml_model/als_movie_rating_model")
+
+
+    // 调用框架的recommendProductsForUsers方法，为所有用户推荐20条电影
+    val userRecsDF: DataFrame = model.recommendProductsForUsers(20).map {
+      case (user_id, arr) =>
+        UserRecs(user_id, arr.sortWith(_.rating > _.rating).map(x => BaseRecommendation(x.product, x.rating)))
+    }.toDF()
+    // 存入MongoDB
+    MongoDBUtil.storeDFInMongoDB(userRecsDF, DBConstant.MONGO_COLLECTION_ALS_USER_RECS)
 //
 //    //    // 提取所有user_id 和 douban_id
 //    //    val userRDD: RDD[Int] = ratingRDD.map(_._1).distinct()
