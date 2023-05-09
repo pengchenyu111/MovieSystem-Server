@@ -5,4 +5,4 @@
 
 ## 系统设计
 
-![](img\system_design.png)
+![image](img/system_design.png)
