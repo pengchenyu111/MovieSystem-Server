@@ -11,7 +11,7 @@
 
 ### 数据处理流程
 
-![image](img\data_handler.png)
+![image](img/data_handler.png)
 
 ### 服务拆分
 
@@ -26,7 +26,7 @@
 
 ### 数据库设计
 
-![image](img\db_design.png)
+![image](img/db_design.png)
 
 ## 数据库优化
 
@@ -54,7 +54,7 @@ ORDER BY
 	user_movie_rating_time DESC
 ```
 
-![image](img\db_improve_1_1.png)
+![image](img/db_improve_1_1.png)
 
 | 使用索引前（10次平均/ms）  | 使用索引后（10次平均/ms） |
 | :------------------------: | :-----------------------: |
@@ -124,7 +124,7 @@ WHERE
 }
 ```
 
-![image](img\db_improve_2_1.png)
+![image](img/db_improve_2_1.png)
 
 结果：
 
@@ -156,20 +156,20 @@ WHERE
 
   - 注意yml文件格式
 
-    ![image](img\db_improve_2_3_1.png)
+    ![image](img/db_improve_2_3_1.png)
 
 - 配置adapter的映射文件时：
 
 - - dataSourceKey、outerAdapterKey、destination、groupId要和上面的application.yml对应；
   - _id和pk：_id是ES自动生成时需要指明pk为一个唯一的主键
 
-![image](img\db_improve_2_3_2.png)
+![image](img/db_improve_2_3_2.png)
 
 ### 大表优化
 
 评分表（movie_user_ratings）和评论表（movie_reviews）中存放了所有电影的评分和评论，其中的数据在不断增长，并且很容易增长到一个很夸张的地步，因为一门热门电影就可能有几百万的评分数，如下所示。因此，只用单表存储数据量会非常之大。
 
-![image](img\db_improve_3_1.png)
+![image](img/db_improve_3_1.png)
 
 ### 简单查询
 
@@ -251,9 +251,9 @@ GROUP BY
 
 ​	先要找出该用户的所有未评分电影，两两计算此电影与任一未评分电影间的相似度，得到电影间的相似度列表并将其降序排列，选取相似度较高的未评分电影即可作为该电影的相似电影列表。
 
-![image](img\rec_als.png)
+![image](img/rec_als.png)
 
-##### ![image](img\rec_als_2.png)
+##### ![image](img/rec_als_2.png)
 
 ### 实时推荐
 
@@ -265,5 +265,5 @@ GROUP BY
 2. 由于本系统的用户评分表的数据量十分庞大，有100多万条用户评分数据，如果继续使用离线推荐算法，每来一条评分数据就要重新计算并生成新的ALS模型。这无疑会造成巨大的资源浪费和冗长的计算耗时，难以满足用户在秒级或毫米级获取新推荐列表的需求，是得不偿失的。
 3. 用户在短时间内一般只会对极少量电影评分，当用户的评分矩阵没有多大变化时，如果继续使用离线推荐算法，得出的推荐结果也会与之前相差无几。这样就会给用户造成推荐结果一直没有变化的假象，大大降低了用户的使用体验。
 
-![image](img\rec_streaming.png)
+![image](img/rec_streaming.png)
 
