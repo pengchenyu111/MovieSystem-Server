@@ -16,6 +16,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -48,23 +49,30 @@ public class MovieDetailServiceImpl implements MovieDetailService {
     @Resource
     StringRedisTemplate stringRedisTemplate;
 
+    @Resource
+    RedisTemplate<String, Long> redisTemplate;
 
 
     /**
-     * 获取互斥锁
+     * 获取锁
+     *
      * @return
      */
-    private Boolean tryLock(String key) {
-        Boolean flag = stringRedisTemplate.opsForValue().setIfAbsent(key, "1", 10, TimeUnit.SECONDS);
+    private Boolean tryLock(String key, Long threadId) {
+        Boolean flag = redisTemplate.opsForValue().setIfAbsent(key, threadId, 10, TimeUnit.SECONDS);
         return Boolean.TRUE.equals(flag);
     }
 
     /**
      * 释放锁
+     *
      * @param key
      */
-    private void unLock(String key) {
-        stringRedisTemplate.delete(key);
+    private void unLock(String key, Long threadId) {
+        if (threadId.equals(redisTemplate.opsForValue().get(key))) {
+            stringRedisTemplate.delete(key);
+        }
+
     }
 
     /**
@@ -89,24 +97,26 @@ public class MovieDetailServiceImpl implements MovieDetailService {
         // 防止缓存击穿
         MovieDetail movieDetail = null;
         String lockKey = REDIS_MOVIE_DETAIL_LOCK + doubanId;
-        Boolean lockFlag = tryLock(lockKey);
+        Long threadId = Thread.currentThread().getId();
+        Boolean lockFlag = tryLock(lockKey, threadId);
         try {
-            if(!lockFlag){
+            if (!lockFlag) {
                 // 获锁失败，等待100ms后重试
                 Thread.sleep(100);
                 return queryById(doubanId);
             }
             // 获锁成功，从数据库中获取数据
             movieDetail = this.movieDetailDao.queryById(doubanId);
+            logger.info("从mysql中读取" + key);
             if (movieDetail == null) {
                 return null;
             }
             String json = JSON.toJSONString(movieDetail);
             redisUtil.setex(key, MOVIE_EXPIRE, json);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException();
-        }finally {
-            unLock(lockKey);
+        } finally {
+            unLock(lockKey, threadId);
         }
         return movieDetail;
     }
