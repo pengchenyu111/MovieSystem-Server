@@ -2,6 +2,7 @@ package com.pcy.controller;
 
 import com.pcy.commmon.web.ApiResponse;
 import com.pcy.commmon.web.ErrorMessages;
+import com.pcy.commmon.web.anno.RequireLogin;
 import com.pcy.domain.movieDetail.MovieDetail;
 import com.pcy.service.RecommendService;
 import io.swagger.annotations.Api;
@@ -131,6 +132,7 @@ public class RecommendController{
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "userId", value = "用户id", required = true, dataType = "Integer")
     })
+    @RequireLogin
     @GetMapping("/alsUserRecs/{userId}")
     public ApiResponse<List<MovieDetail>> alsUserRecs(@PathVariable("userId") Integer userId) {
         List<MovieDetail> movieDetails = this.recommendService.alsUserRecs(userId);

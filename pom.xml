@@ -17,6 +17,7 @@
         <module>Movie-System-Search</module>
         <module>Movie-System-Sms-Mail</module>
         <module>Movie-System-Test</module>
+        <module>Movie-System-Recommender</module>
     </modules>
 
     <!--父工程-->
